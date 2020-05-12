@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Simple booking interface</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/booking.css">
+</head>
+<body>
+		<div class="center">
+			<h2>Simple Booking Demo</h2>
+		</div>
+		<form class="center" action="#" th:action="@{/booking}" th:object="${startbookinfo}" method="post">
+			<table>
+				<tr>
+					<td><label for="name"> Full Name: </label></td>
+					<td><input type="text" size="45" id="name" th:field="*{userName}"/></td>
+				</tr>
+				<tr>
+					<td><label for="startDate"> Start Date: </label></td>
+					<td><input type="date" id="startDate" th:field="*{startDate}"/></td>
+				</tr>
+				<tr>
+					<td><label for="endDate"> End Date: </label></td>
+					<td><input type="date" id="endDate" th:field="*{endDate}"/></td>
+				</tr>
+				<tr>
+					<td><label for="cities"> Choose destination: </label></td>
+					<td><select id="cities" th:field="*{city}">
+						<option th:each="city:${cities}" th:value="${city}"
+							th:text="${city}">----</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Search"></td>
+					<td><input type="reset" value="Clean"></td>
+				<tr>
+			</table>
+		</form>
+</body>
+</html>
