@@ -1,4 +1,4 @@
-package com.company.boot;
+package example.booking.boot;
 
 import java.util.Arrays;
 

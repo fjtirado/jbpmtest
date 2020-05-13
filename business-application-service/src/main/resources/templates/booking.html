@@ -13,15 +13,15 @@
 			<table>
 				<tr>
 					<td><label for="name"> Full Name: </label></td>
-					<td><input type="text" size="45" id="name" th:field="*{userName}"/></td>
+					<td><input type="text" size="45" id="name" th:field="*{bookingInfo.userName}"/></td>
 				</tr>
 				<tr>
 					<td><label for="startDate"> Start Date: </label></td>
-					<td><input type="date" id="startDate" th:field="*{startDate}"/></td>
+					<td><input type="date" id="startDate" th:field="*{bookingInfo.startDate}"/></td>
 				</tr>
 				<tr>
 					<td><label for="endDate"> End Date: </label></td>
-					<td><input type="date" id="endDate" th:field="*{endDate}"/></td>
+					<td><input type="date" id="endDate" th:field="*{bookingInfo.endDate}"/></td>
 				</tr>
 				<tr>
 					<td><label for="cities"> Choose destination: </label></td>

@@ -1,17 +1,12 @@
-package com.company.model;
+package example.booking.model;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-public class StartBookInfo {
+public class BookingInfo {
 
     private String userName;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
-    private String city;
 
     public String getUserName() {
         return userName;
@@ -35,19 +30,6 @@ public class StartBookInfo {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    @Override
-    public String toString() {
-        return "StartBookInfo [userName=" + userName + ", startDate=" + startDate + ", endDate=" + endDate + ", city=" + city + "]";
     }
 
 }

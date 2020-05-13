@@ -1,4 +1,4 @@
-package com.company.boot;
+package example.booking.boot;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.company.controller", "com.company.boot", "com.company.services.impl"})
+@ComponentScan(basePackages = {"example.booking.controller", "example.booking.boot", "example.booking.services"})
 public class Application implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);

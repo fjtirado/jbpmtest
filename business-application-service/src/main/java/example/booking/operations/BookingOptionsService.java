@@ -1,4 +1,4 @@
-package com.company.services;
+package example.booking.operations;
 
 import java.util.Collection;
 

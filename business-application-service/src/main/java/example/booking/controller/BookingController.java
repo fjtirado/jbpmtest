@@ -1,9 +1,9 @@
-package com.company.controller;
+package example.booking.controller;
 
 import javax.inject.Inject;
 
-import com.company.model.StartBookInfo;
-import com.company.services.BookingOptionsService;
+import example.booking.model.BookingSelector;
+import example.booking.operations.BookingOptionsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +20,15 @@ public class BookingController {
     @GetMapping
     public ModelAndView home() {
         ModelAndView result = new ModelAndView("booking");
-        result.addObject("startbookinfo", new StartBookInfo());
+        result.addObject("startbookinfo", new BookingSelector());
         result.addObject("cities", bookOptionsSvc.getCities());
         return result;
     }
 
     @PostMapping
-    public ModelAndView startBooking(StartBookInfo startBookInfo) {
+    public ModelAndView startBooking(BookingSelector startBookInfo) {
         ModelAndView result = new ModelAndView("confirm");
-        result.addObject("name", startBookInfo.getUserName());
+        result.addObject("name", startBookInfo.getBookingInfo().getUserName());
         return result;
     }
 }
