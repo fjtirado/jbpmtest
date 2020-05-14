@@ -14,7 +14,7 @@ public class RoomDescription implements java.io.Serializable {
         this.id = id;
     }
 
-    public String getRoomId() {
+    public String getId() {
         return id;
     }
 

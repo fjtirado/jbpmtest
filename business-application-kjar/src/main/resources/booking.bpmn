@@ -110,7 +110,7 @@
     <bpmn2:scriptTask id="ScriptTask_2" name="loopCollector">
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
-      <bpmn2:script>rooms.put(hotel,roomTypes);</bpmn2:script>
+      <bpmn2:script>rooms.put(hotel.getHotelDescription(),roomTypes);</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:sequenceFlow id="SequenceFlow_8" sourceRef="ServiceTask_2" targetRef="ScriptTask_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_9" sourceRef="ScriptTask_2" targetRef="ExclusiveGateway_3"/>

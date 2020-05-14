@@ -7,7 +7,21 @@
 </head>
 <body>
 	<div class="center">
-	<p th:text="'Booking details for '+${name}"/>
+		<p th:text="'Booking details for '+${name}"/>
 	</div>
+	<form class="center">
+	<table>
+		<tr>
+			<th>Hotel</th>
+			<th>Room Type</th>
+		<tr>
+		<tr th:each="hotel:${rooms.entrySet()}">
+			<td th:text="${hotel.key.name}"/>
+			<td th:each="room: ${hotel.value}">
+				<input type="radio" name="hotel"  th:text="${room.id}"/>
+			<td>
+		</tr>	
+	</table>
+	</form>
 </body>
 </html>

@@ -1,20 +1,18 @@
 package example.booking.controller;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import example.booking.model.BookingSelector;
+import example.booking.model.HotelDescription;
+import example.booking.model.RoomDescription;
 import example.booking.operations.BookingOptionsService;
-import org.jbpm.process.core.context.variable.VariableScope;
-import org.jbpm.process.instance.context.variable.VariableScopeInstance;
 import org.jbpm.services.api.ProcessService;
-import org.kie.api.event.process.DefaultProcessEventListener;
-import org.kie.api.event.process.ProcessCompletedEvent;
-import org.kie.api.event.process.ProcessNodeTriggeredEvent;
-import org.kie.api.event.process.ProcessStartedEvent;
-import org.kie.api.event.process.ProcessVariableChangedEvent;
+import org.jbpm.services.task.events.DefaultTaskEventListener;
+import org.kie.api.task.TaskEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("booking")
-public class BookingController extends DefaultProcessEventListener {
+public class BookingController extends DefaultTaskEventListener {
 
     private final static Logger logger = LoggerFactory.getLogger(BookingController.class);
 
@@ -47,31 +45,32 @@ public class BookingController extends DefaultProcessEventListener {
     public ModelAndView startBooking(BookingSelector startBookInfo) {
         Map<String, Object> params = new HashMap<>();
         params.put("bookingSelector", startBookInfo);
-        params.put("rooms", new HashMap<>());
-        processService.startProcess("business-application-kjar-1_0-SNAPSHOT", "booking", params);
+        Map<HotelDescription, Collection<RoomDescription>> rooms = new HashMap<>();
         ModelAndView result = new ModelAndView("confirm");
         result.addObject("name", startBookInfo.getBookingInfo().getUserName());
+        result.addObject("rooms", rooms);
+        params.put("rooms", rooms);
+        processService.startProcess("business-application-kjar-1_0-SNAPSHOT", "booking", params);
         return result;
     }
 
     @Override
-    public void afterProcessStarted(ProcessStartedEvent event) {
-        VariableScopeInstance variableScope = (VariableScopeInstance) ((org.jbpm.process.instance.ProcessInstance) event.getProcessInstance()).getContextInstance(VariableScope.VARIABLE_SCOPE);
-        logger.info("Process started with variables {}", variableScope.getVariables());
+    public void beforeTaskAddedEvent(TaskEvent event) {
+        logger.info("Task {} added by user {}", event.getTask(), event.getTaskContext().getUserId());
+    }
+
+    public void afterTaskReleasedEvent(TaskEvent event) {
+        logger.info("Task {} released by user {}", event.getTask(), event.getTaskContext().getUserId());
     }
 
     @Override
-    public void beforeProcessCompleted(ProcessCompletedEvent event) {
-        VariableScopeInstance variableScope = (VariableScopeInstance) ((org.jbpm.process.instance.ProcessInstance) event.getProcessInstance()).getContextInstance(VariableScope.VARIABLE_SCOPE);
-        logger.info("Process finished with variables {}", variableScope.getVariables());
-    }
-
-    public void beforeNodeTriggered(ProcessNodeTriggeredEvent event) {
-        logger.info("Before node triggered {}", event);
+    public void afterTaskStartedEvent(TaskEvent event) {
+        logger.info("Task {} started by user {}", event.getTask(), event.getTaskContext().getUserId());
     }
 
     @Override
-    public void afterVariableChanged(ProcessVariableChangedEvent event) {
-        logger.info("Variable change event {}", event);
+    public void afterTaskCompletedEvent(TaskEvent event) {
+        logger.info("Task {} completed by user {}", event.getTask(), event.getTaskContext().getUserId());
     }
+
 }
