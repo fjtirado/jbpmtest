@@ -41,4 +41,9 @@ public class RoomDescription implements java.io.Serializable {
     public void setFeatures(Set<RoomFeature> features) {
         this.features = features;
     }
+
+    @Override
+    public String toString() {
+        return "RoomDescription [id=" + id + ", size=" + size + ", description=" + description + ", features=" + features + "]";
+    }
 }

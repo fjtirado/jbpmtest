@@ -53,7 +53,7 @@ public class SpringServiceTaskHandler implements WorkItemHandler {
         Method chosenOne = null;
         for (Method method : methods) {
             if (method.getName().equals(methodName) || method.getName().equals(altMethodName)) {
-                Class[] methodParams = method.getParameterTypes();
+                Class<?>[] methodParams = method.getParameterTypes();
                 if (methodParams.length == 0) {
                     if (parameter == null) {
                         chosenOne = method;
@@ -102,7 +102,7 @@ public class SpringServiceTaskHandler implements WorkItemHandler {
             }
         }
         if (chosenOne == null)
-            throw new WorkItemHandlerRuntimeException(null, "cannot find suitable method {" + methodName + "," + altMethodName + " for class " + interfaceClass);
+            throw new WorkItemHandlerRuntimeException(null, "cannot find suitable method {" + methodName + "," + altMethodName + " for class " + interfaceClass + " Parameter is " + parameter);
         try {
             manager.completeWorkItem(workItem.getId(), Collections.singletonMap("result", chosenOne.invoke(ctx.getBean(interfaceClass), chosenOneParams)));
         } catch (BeansException | IllegalAccessException e) {

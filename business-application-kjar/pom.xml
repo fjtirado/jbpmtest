@@ -178,4 +178,11 @@
       </snapshots>
     </repository>
   </repositories>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.javierito.booking</groupId>
+  		<artifactId>business-application-model</artifactId>
+  		<version>1.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

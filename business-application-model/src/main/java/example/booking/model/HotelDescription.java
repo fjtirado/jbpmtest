@@ -1,10 +1,12 @@
 package example.booking.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class HotelDescription implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
+    private final long id;
     private final String name;
     private String address;
     private String webUrl;
@@ -12,9 +14,15 @@ public class HotelDescription implements java.io.Serializable {
     private int distance; // from city centre
     private String description;
     private Set<HotelFeature> features;
+    private Collection<RoomDescription> roomTypes;
 
-    public HotelDescription(String name) {
+    public HotelDescription(long id, String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getAddress() {
@@ -67,6 +75,42 @@ public class HotelDescription implements java.io.Serializable {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        HotelDescription other = (HotelDescription) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+
+    public Collection<RoomDescription> getRoomTypes() {
+        return roomTypes;
+    }
+
+    public void setRoomTypes(Collection<RoomDescription> roomTypes) {
+        this.roomTypes = roomTypes;
+    }
+
+    @Override
+    public String toString() {
+        return "HotelDescription [id=" + id + ", name=" + name + ", address=" + address + ", webUrl=" + webUrl + ", starRating=" + starRating + ", distance=" + distance + ", description=" + description + ", features=" +
+               features + ", roomTypes=" + roomTypes + "]";
     }
 
 }

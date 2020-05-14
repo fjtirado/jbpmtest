@@ -1,14 +1,15 @@
 package example.booking.operations;
 
+import java.util.Collection;
+
 import example.booking.model.BookConfirmation;
 import example.booking.model.BookingInfo;
-import example.booking.model.HotelRoomsDescription;
+import example.booking.model.HotelDescription;
 import example.booking.model.RoomDescription;
-import example.booking.model.RoomSelector;
 
-public interface HotelService extends java.io.Serializable {
+public interface HotelService {
 
-    HotelRoomsDescription getAvailableRooms(BookingInfo info, RoomSelector roomSelector);
+    Collection<RoomDescription> getAvailableRooms(BookingInfo info, HotelDescription description);
 
-    BookConfirmation bookRoom(RoomDescription roomDesc, BookingInfo info);
+    BookConfirmation bookRoom(BookingInfo info, HotelDescription description, RoomDescription roomDesc);
 }

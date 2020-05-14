@@ -15,13 +15,13 @@ import example.booking.model.RoomFeature;
 import example.booking.model.RoomSelector;
 import example.booking.operations.BookingOptionsService;
 import example.booking.operations.FindHotelService;
-import example.booking.operations.HotelService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpainBookingOptionsService implements BookingOptionsService, FindHotelService {
+public class InMemoryBookingOptionsService implements BookingOptionsService, FindHotelService {
 
-    private final Map<String, Collection<HotelService>> cityHotels = new ConcurrentHashMap<>();
+    private final Map<String, Collection<HotelDescription>> cityHotels = new ConcurrentHashMap<>();
+    private int counter = 0;
 
     @PostConstruct
     private void init() {
@@ -51,12 +51,14 @@ public class SpainBookingOptionsService implements BookingOptionsService, FindHo
     }
 
     @Override
-    public Collection<HotelService> getHotels(String location, HotelSelector hotelSelector, RoomSelector roomSelector) {
+    public Collection<HotelDescription> getHotels(String location, HotelSelector hotelSelector, RoomSelector roomSelector) {
         return cityHotels.get(location);
     }
 
-    private HotelService buildHotelService(String name, RoomDescription... roomTypes) {
-        return new InMemoryHotelService(new HotelDescription(name), Arrays.asList(roomTypes));
+    private HotelDescription buildHotelService(String name, RoomDescription... roomTypes) {
+        HotelDescription hotelDesc = new HotelDescription(counter++, name);
+        hotelDesc.setRoomTypes(Arrays.asList(roomTypes));
+        return hotelDesc;
     }
 
 }
