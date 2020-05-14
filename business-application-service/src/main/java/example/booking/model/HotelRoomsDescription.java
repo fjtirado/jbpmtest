@@ -2,8 +2,9 @@ package example.booking.model;
 
 import java.util.Collection;
 
-public class HotelRoomsDescription {
+public class HotelRoomsDescription implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Collection<RoomDescription> roomTypes;
     private HotelDescription description;
 

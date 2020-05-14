@@ -6,7 +6,7 @@ import example.booking.model.HotelRoomsDescription;
 import example.booking.model.RoomDescription;
 import example.booking.model.RoomSelector;
 
-public interface HotelService {
+public interface HotelService extends java.io.Serializable {
 
     HotelRoomsDescription getAvailableRooms(BookingInfo info, RoomSelector roomSelector);
 

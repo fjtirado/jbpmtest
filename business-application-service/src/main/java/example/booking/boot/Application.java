@@ -1,5 +1,7 @@
 package example.booking.boot;
 
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import org.jbpm.services.api.DeploymentService;
@@ -11,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"example.booking.controller", "example.booking.boot", "example.booking.services"})
+@ComponentScan(basePackages = {"example.booking.controller", "example.booking.services", "example.booking.boot"})
 public class Application implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -25,7 +27,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Deployed services are {}", service.getDeployedUnits());
+        //service.getDeployedUnits().stream().forEach(d -> service.undeploy(d.getDeploymentUnit()));
+        logger.info("Deployed services are {}", service.getDeployedUnits().stream().map(d -> d.getDeploymentUnit().getIdentifier()).collect(Collectors.toList()));
     }
-
 }

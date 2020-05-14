@@ -2,8 +2,9 @@ package example.booking.model;
 
 import java.util.Date;
 
-public class BookingInfo {
+public class BookingInfo implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String userName;
     private Date startDate;
     private Date endDate;
@@ -30,6 +31,11 @@ public class BookingInfo {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingInfo [userName=" + userName + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 
 }

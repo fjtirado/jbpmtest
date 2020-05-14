@@ -23,7 +23,7 @@
     <container>
       <containerId>business-application-kjar-1_0-SNAPSHOT</containerId>
       <releaseId>
-        <groupId>com.company</groupId>
+        <groupId>example.booking</groupId>
         <artifactId>business-application-kjar</artifactId>
         <version>1.0-SNAPSHOT</version>
       </releaseId>

@@ -12,6 +12,7 @@ import example.booking.operations.HotelService;
 
 public class InMemoryHotelService implements HotelService {
 
+    private static final long serialVersionUID = 1L;
     private HotelDescription hotelDescription;
     private Collection<RoomDescription> roomTypes;
 
