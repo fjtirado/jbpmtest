@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 public class InMemoryBookingOptionsService implements BookingOptionsService, FindHotelService {
 
     private final Map<String, Collection<HotelDescription>> cityHotels = new ConcurrentHashMap<>();
-    private int counter = 0;
 
     @PostConstruct
     private void init() {
@@ -56,7 +55,7 @@ public class InMemoryBookingOptionsService implements BookingOptionsService, Fin
     }
 
     private HotelDescription buildHotelService(String name, RoomDescription... roomTypes) {
-        HotelDescription hotelDesc = new HotelDescription(counter++, name);
+        HotelDescription hotelDesc = new HotelDescription(HotelUtils.instance.generateId(name), name);
         hotelDesc.setRoomTypes(Arrays.asList(roomTypes));
         return hotelDesc;
     }

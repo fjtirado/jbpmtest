@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Simple booking interface</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <link rel="stylesheet" type="text/css" href="/css/booking.css">
+</head>
+<body>
+	<div class="center">
+		<h2>Select hotel and room</h2>
+	</div>
+	<form class="center" action="#" th:action="@{/booking/confirm}" th:object="${bookchoice}" method="post">
+	<table>
+		<tr>
+			<th>Hotel</th>
+			<th>Room Type</th>
+		<tr>
+		<tr th:each="hotel:${rooms.entrySet()}">
+			<td>
+				<input type="radio" name="hotel" th:field="*{hotelId}" th:value="${hotel.key.id}" th:text="${hotel.key.name}"/>
+			</td>
+			<td th:each="room: ${hotel.value}">
+				<input type="radio" name="room" th:field="*{roomType}" th:value="${room.id}" th:text="${room.id}"/>
+			<td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Confirm"></td>
+			<td><input type="reset" value="Clean"></td>
+		</tr>	
+	</table>
+	</form>
+</body>
+</html>

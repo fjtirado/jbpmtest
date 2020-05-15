@@ -11,5 +11,5 @@ public interface HotelService {
 
     Collection<RoomDescription> getAvailableRooms(BookingInfo info, HotelDescription description);
 
-    BookConfirmation bookRoom(BookingInfo info, HotelDescription description, RoomDescription roomDesc);
+    BookConfirmation bookRoom(BookingInfo info, long hotelId, String roomType);
 }

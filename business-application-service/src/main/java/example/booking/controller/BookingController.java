@@ -1,16 +1,26 @@
 package example.booking.controller;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
+import example.booking.model.BookChoice;
+import example.booking.model.BookingInfo;
 import example.booking.model.BookingSelector;
 import example.booking.model.HotelDescription;
 import example.booking.model.RoomDescription;
 import example.booking.operations.BookingOptionsService;
+import example.booking.operations.HotelService;
 import org.jbpm.services.api.ProcessService;
+import org.jbpm.services.api.RuntimeDataService;
+import org.jbpm.services.api.UserTaskService;
+import org.jbpm.services.api.model.ProcessInstanceDesc;
+import org.jbpm.services.api.model.UserTaskInstanceDesc;
 import org.jbpm.services.task.events.DefaultTaskEventListener;
 import org.kie.api.task.TaskEvent;
 import org.slf4j.Logger;
@@ -33,6 +43,15 @@ public class BookingController extends DefaultTaskEventListener {
     @Inject
     private ProcessService processService;
 
+    @Inject
+    private HotelService hotelService;
+
+    @Inject
+    private UserTaskService taskService;
+
+    @Inject
+    private RuntimeDataService runtimeService;
+
     @GetMapping
     public ModelAndView home() {
         ModelAndView result = new ModelAndView("booking");
@@ -42,15 +61,35 @@ public class BookingController extends DefaultTaskEventListener {
     }
 
     @PostMapping
-    public ModelAndView startBooking(BookingSelector startBookInfo) {
+    public ModelAndView startBooking(BookingSelector startBookInfo, HttpSession session) {
         Map<String, Object> params = new HashMap<>();
+        session.setAttribute("bookingInfo", startBookInfo.getBookingInfo());
         params.put("bookingSelector", startBookInfo);
         Map<HotelDescription, Collection<RoomDescription>> rooms = new HashMap<>();
-        ModelAndView result = new ModelAndView("confirm");
-        result.addObject("name", startBookInfo.getBookingInfo().getUserName());
+        ModelAndView result = new ModelAndView("selectHotel");
         result.addObject("rooms", rooms);
+        result.addObject("bookchoice", new BookChoice());
         params.put("rooms", rooms);
-        processService.startProcess("business-application-kjar-1_0-SNAPSHOT", "booking", params);
+        session.setAttribute("instanceId", processService.startProcess("business-application-kjar-1_0-SNAPSHOT", "booking", params));
+        return result;
+    }
+
+    @PostMapping("confirm")
+    public ModelAndView confirmBooking(BookChoice bookChoice, HttpSession session) {
+        ModelAndView result = new ModelAndView("confirmation");
+        result.addObject("confirm", hotelService.bookRoom((BookingInfo) session.getAttribute("bookingInfo"), bookChoice.getHotelId(), bookChoice.getRoomType()));
+        long instanceId = (Long) session.getAttribute("instanceId");
+        ProcessInstanceDesc processDesc = runtimeService.getProcessInstanceById(instanceId);
+        List<Long> tasks = runtimeService.getTasksByProcessInstanceId(processDesc.getId());
+        for (Long taskId : tasks) {
+            UserTaskInstanceDesc task = runtimeService.getTaskById(taskId);
+            if (task.getName().equals("Confirmation")) {
+                String taskUser = task.getActualOwner() != null && !task.getActualOwner().isEmpty() ? task.getActualOwner() : "Administrator";
+                taskService.activate(taskId, taskUser);
+                taskService.start(taskId, taskUser);
+                taskService.complete(taskId, taskUser, Collections.emptyMap());
+            }
+        }
         return result;
     }
 

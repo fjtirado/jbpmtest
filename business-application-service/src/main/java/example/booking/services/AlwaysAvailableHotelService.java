@@ -19,7 +19,7 @@ public class AlwaysAvailableHotelService implements HotelService {
     }
 
     @Override
-    public BookConfirmation bookRoom(BookingInfo info, HotelDescription hotelDesc, RoomDescription roomDesc) {
-        return new BookConfirmation(UUID.randomUUID().toString(), hotelDesc, roomDesc, info);
+    public BookConfirmation bookRoom(BookingInfo info, long hotelId, String roomType) {
+        return new BookConfirmation(UUID.randomUUID().toString(), HotelUtils.instance.getHotelName(hotelId), roomType, info);
     }
 }

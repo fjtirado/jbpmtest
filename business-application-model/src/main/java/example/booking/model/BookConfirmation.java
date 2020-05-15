@@ -3,14 +3,14 @@ package example.booking.model;
 public class BookConfirmation {
 
     private final String bookId;
-    private final HotelDescription hotelDesc;
-    private final RoomDescription roomDesc;
+    private final String hotelName;
+    private final String roomType;
     private final BookingInfo bookingInfo;
 
-    public BookConfirmation(String bookId, HotelDescription hotelDesc, RoomDescription roomDesc, BookingInfo bookingInfo) {
+    public BookConfirmation(String bookId, String hotelName, String roomType, BookingInfo bookingInfo) {
         this.bookId = bookId;
-        this.hotelDesc = hotelDesc;
-        this.roomDesc = roomDesc;
+        this.hotelName = hotelName;
+        this.roomType = roomType;
         this.bookingInfo = bookingInfo;
     }
 
@@ -18,12 +18,12 @@ public class BookConfirmation {
         return bookId;
     }
 
-    public HotelDescription getHotelDesc() {
-        return hotelDesc;
+    public String getHotelName() {
+        return hotelName;
     }
 
-    public RoomDescription getRoomDesc() {
-        return roomDesc;
+    public String getRoomType() {
+        return roomType;
     }
 
     public BookingInfo getBookingInfo() {
@@ -32,6 +32,6 @@ public class BookConfirmation {
 
     @Override
     public String toString() {
-        return "BookConfirmation [bookId=" + bookId + ", hotelDesc=" + hotelDesc + ", roomDesc=" + roomDesc + ", bookingInfo=" + bookingInfo + "]";
+        return "BookConfirmation [bookId=" + bookId + ", hotel=" + hotelName + ", roomType=" + roomType + ", bookingInfo=" + bookingInfo + "]";
     }
 }
