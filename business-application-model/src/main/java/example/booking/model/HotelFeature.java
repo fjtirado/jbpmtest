@@ -4,7 +4,7 @@ public enum HotelFeature {
     PARKING,
     LAUNDRY,
     WIFI,
-    BABYSITTING,
+    NURSERY,
     SWIMMING_POOL,
     RESTAURANT
 }

@@ -32,6 +32,28 @@
 					</td>
 				</tr>
 				<tr>
+					<td><label>Hotel features: </label></td>
+					<td>
+						<input type="checkbox" th:text="'Parking'" th:field="*{hotelSelector.parking}">						
+						<input type="checkbox" th:text="'Laundry'" th:field="*{hotelSelector.laundry}">						
+						<input type="checkbox" th:text="'Swimming Pool'" th:field="*{hotelSelector.swimmingPool}">						
+						<input type="checkbox" th:text="'Restaurant'" th:field="*{hotelSelector.restaurant}">						
+						<input type="checkbox" th:text="'Nursery'" th:field="*{hotelSelector.nursery}">						
+						<input type="checkbox" th:text="'Wifi'" th:field="*{hotelSelector.wifi}">						
+					</td>
+				</tr>
+				<tr>
+					<td><label>Room features: </label></td>
+					<td>
+						<input type="checkbox" th:text="'King Size Bed'" th:field="*{roomSelector.kingSizeBed}">						
+						<input type="checkbox" th:text="'Bathtub'" th:field="*{roomSelector.bathtub}">						
+						<input type="checkbox" th:text="'Terrace'" th:field="*{roomSelector.terrace}">						
+						<input type="checkbox" th:text="'Sofa'" th:field="*{roomSelector.sofa}">						
+						<input type="checkbox" th:text="'Desktop'" th:field="*{roomSelector.desktop}">						
+						<input type="checkbox" th:text="'Nice View'" th:field="*{roomSelector.view}">						
+					</td>
+				</tr>
+				<tr>
 					<td><input type="submit" value="Search"></td>
 					<td><input type="reset" value="Clean"></td>
 				</tr>
