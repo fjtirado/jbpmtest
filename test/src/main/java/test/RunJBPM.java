@@ -20,7 +20,6 @@ import org.kie.api.definition.process.Process;
 import org.kie.api.event.process.DefaultProcessEventListener;
 import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessStartedEvent;
-import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -44,6 +43,7 @@ public class RunJBPM {
     private final static Logger logger = LoggerFactory.getLogger(RunJBPM.class);
 
     private static final List<Status> allowedStatus = Arrays.asList(Status.Reserved, Status.Ready, Status.InProgress);
+    private static final String USER_ID = "javi";
 
     // needs to be public 
     public static class Sl4jTaskListener extends DefaultTaskEventListener {
@@ -84,21 +84,18 @@ public class RunJBPM {
 
     public static void main(String[] args) throws NamingException, SQLException {
 
-        CustomUser ugCallback = new CustomUser();
         EntityManagerFactory emf = PersistenceHelper.setupPersistence();
         DefaultRegisterableItemsFactory registerFactory = new DefaultRegisterableItemsFactory();
         registerFactory.addTaskListener(Sl4jTaskListener.class);
         registerFactory.addProcessListener(Sl4jProcessListener.class);
-        Resource resource = ResourceFactory.newClassPathResource("Evaluation.bpmn");
-
         /*
         An alternative way of instantiating user group callback
          System.setProperty("org.jbpm.ht.callback", "custom");
         System.setProperty("org.jbpm.ht.custom.callback", "test.RunJBPM$CustomUser");
         */
         RuntimeEnvironment environment =
-                RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder().entityManagerFactory(emf).userGroupCallback(ugCallback)
-                                                 .addAsset(resource, ResourceType.BPMN2)
+                RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder().entityManagerFactory(emf).userGroupCallback(new CustomUser())
+                                                 .addAsset(ResourceFactory.newClassPathResource("Evaluation.bpmn"), ResourceType.BPMN2)
                                                  .registerableItemsFactory(registerFactory)
                                                  .get();
 
@@ -109,7 +106,6 @@ public class RunJBPM {
 
             KieSession session = runtime.getKieSession();
             TaskService taskSvc = runtime.getTaskService();
-            final String userId = "javi";
 
             Collection<Process> processes = environment.getKieBase().getProcesses();
 
@@ -119,7 +115,7 @@ public class RunJBPM {
                 VariableScope variableScope = (VariableScope) context.getDefaultContext(VariableScope.VARIABLE_SCOPE);
                 Map<String, Object> params = new HashMap<String, Object>();
                 for (String variableName : variableScope.getVariableNames()) {
-                    params.put(variableName, userId);
+                    params.put(variableName, USER_ID);
                 }
 
                 ProcessInstance process = session.startProcess(processDef.getId(), params);
@@ -129,7 +125,7 @@ public class RunJBPM {
                         //if (task.getStatus() == Status.Reserved)
                         //  taskSvc.release(task.getId(), userId);
                         //  taskSvc.claim(task.getId(), userId);
-                        String taskUserId = task.getActualOwnerId() != null ? task.getActualOwnerId() : userId;
+                        String taskUserId = task.getActualOwnerId() != null ? task.getActualOwnerId() : USER_ID;
                         taskSvc.start(task.getId(), taskUserId);
                         taskSvc.complete(task.getId(), taskUserId, Collections.singletonMap("evaluation", "dissapointed"));
                     }
@@ -158,7 +154,5 @@ public class RunJBPM {
         public List<String> getGroupsForUser(String userId) {
             return Arrays.asList("HR", "PM");
         }
-
     }
-
 }

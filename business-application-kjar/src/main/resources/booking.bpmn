@@ -130,9 +130,9 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="booking">
       <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="StartEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="100.0" y="100.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="90.0" y="100.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_1" labelStyle="BPMNLabelStyle_1">
-          <dc:Bounds height="15.0" width="68.0" x="84.0" y="136.0"/>
+          <dc:Bounds height="15.0" width="68.0" x="74.0" y="136.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_1">
@@ -184,10 +184,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_1" targetElement="BPMNShape_ServiceTask_1">
-        <di:waypoint xsi:type="dc:Point" x="136.0" y="118.0"/>
-        <di:waypoint xsi:type="dc:Point" x="161.0" y="118.0"/>
-        <di:waypoint xsi:type="dc:Point" x="161.0" y="109.0"/>
-        <di:waypoint xsi:type="dc:Point" x="187.0" y="109.0"/>
+        <di:waypoint xsi:type="dc:Point" x="126.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="156.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="187.0" y="118.0"/>
         <bpmndi:BPMNLabel id="BPMNLabel_5"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_ServiceTask_1" targetElement="BPMNShape_ExclusiveGateway_1">
