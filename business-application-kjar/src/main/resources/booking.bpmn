@@ -138,6 +138,7 @@
     <bpmn2:property id="rooms" itemSubjectRef="ItemDefinition_2194" name="rooms"/>
     <bpmn2:property id="hotel" itemSubjectRef="ItemDefinition_1938" name="hotel"/>
     <bpmn2:property id="roomTypes" itemSubjectRef="ItemDefinition_36" name="roomTypes"/>
+    <bpmn2:property id="bookConfirmation" itemSubjectRef="ItemDefinition_117" name="bookConfirmation"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="booking">
