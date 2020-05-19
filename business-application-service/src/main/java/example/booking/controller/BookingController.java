@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import example.booking.model.BookChoice;
+import example.booking.model.BookConfirmation;
 import example.booking.model.BookingInfo;
 import example.booking.model.BookingSelector;
 import example.booking.model.HotelDescription;
@@ -19,7 +20,6 @@ import example.booking.operations.HotelService;
 import org.jbpm.services.api.ProcessService;
 import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.UserTaskService;
-import org.jbpm.services.api.model.ProcessInstanceDesc;
 import org.jbpm.services.api.model.UserTaskInstanceDesc;
 import org.jbpm.services.task.events.DefaultTaskEventListener;
 import org.kie.api.task.TaskEvent;
@@ -77,17 +77,17 @@ public class BookingController extends DefaultTaskEventListener {
     @PostMapping("confirm")
     public ModelAndView confirmBooking(BookChoice bookChoice, HttpSession session) {
         ModelAndView result = new ModelAndView("confirmation");
-        result.addObject("confirm", hotelService.bookRoom((BookingInfo) session.getAttribute("bookingInfo"), bookChoice.getHotelId(), bookChoice.getRoomType()));
+        BookConfirmation confirmation = hotelService.bookRoom((BookingInfo) session.getAttribute("bookingInfo"), bookChoice.getHotelId(), bookChoice.getRoomType());
+        result.addObject("confirm", confirmation);
         long instanceId = (Long) session.getAttribute("instanceId");
-        ProcessInstanceDesc processDesc = runtimeService.getProcessInstanceById(instanceId);
-        List<Long> tasks = runtimeService.getTasksByProcessInstanceId(processDesc.getId());
+        List<Long> tasks = runtimeService.getTasksByProcessInstanceId(instanceId);
         for (Long taskId : tasks) {
             UserTaskInstanceDesc task = runtimeService.getTaskById(taskId);
             if (task.getName().equals("Confirmation")) {
                 String taskUser = task.getActualOwner() != null && !task.getActualOwner().isEmpty() ? task.getActualOwner() : "Administrator";
                 taskService.activate(taskId, taskUser);
                 taskService.start(taskId, taskUser);
-                taskService.complete(taskId, taskUser, Collections.emptyMap());
+                taskService.complete(taskId, taskUser, Collections.singletonMap("bookConfirmation", confirmation));
             }
         }
         return result;

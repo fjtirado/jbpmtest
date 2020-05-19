@@ -1,7 +1,8 @@
 package example.booking.model;
 
-public class BookConfirmation {
+public class BookConfirmation implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final String bookId;
     private final String hotelName;
     private final String roomType;
