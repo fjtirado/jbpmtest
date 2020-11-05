@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
+
+<!-- generated using Files.write(Paths.get("/tmp/processFactory.bpmn2"), bytes);-->
 <definitions id="Definition"
              targetNamespace="http://www.jboss.org/drools"
              typeLanguage="http://www.java.com/javaTypes"
