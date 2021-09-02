@@ -11,19 +11,21 @@ import javax.sql.XADataSource;
 import javax.transaction.TransactionManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.arjuna.ats.jta.common.jtaPropertyManager;
-import com.mysql.cj.jdbc.MysqlXADataSource;
 import org.apache.tomcat.dbcp.dbcp2.managed.BasicManagedDataSource;
 import org.drools.persistence.jta.JtaTransactionManager;
 import org.h2.jdbcx.JdbcDataSource;
+import org.postgresql.xa.PGXADataSource;
+
+import com.arjuna.ats.jta.common.jtaPropertyManager;
+import com.mysql.cj.jdbc.MysqlXADataSource;
 
 public class PersistenceHelper {
 
     private static final String PERSISTENCE_UNIT_NAME = "org.jbpm.persistence.jpa";
 
     public static EntityManagerFactory setupPersistence() throws NamingException, SQLException {
-        final String userName = "jbpm";
-        final String password = "jbpm";
+        final String userName = "postgres";
+        final String password = "postgres";
         Context ctx = new InitialContext();
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
         TransactionSynchronizationRegistry tsr = jtaPropertyManager.getJTAEnvironmentBean().getTransactionSynchronizationRegistry();
@@ -31,7 +33,7 @@ public class PersistenceHelper {
         mds.setUsername(userName);
         mds.setPassword(password);
         mds.setTransactionManager(tm);
-        mds.setXaDataSourceInstance(getMySQL(userName, password));
+        mds.setXaDataSourceInstance(getPostgres(userName, password));
         mds.setTransactionSynchronizationRegistry(tsr);
         ctx.bind("jdbc/jbpm-ds", mds);
         ctx.bind(JtaTransactionManager.DEFAULT_USER_TRANSACTION_NAME, com.arjuna.ats.jta.UserTransaction.userTransaction());
@@ -47,6 +49,14 @@ public class PersistenceHelper {
         sds.setPassword(password);
         return sds;
     }
+
+    private static XADataSource getPostgres(String userName, String password) {
+        PGXADataSource pds = new PGXADataSource();
+        pds.setUser(userName);
+        pds.setPassword(password);
+        return pds;
+    }
+
 
     private static XADataSource getMySQL(String userName, String password) throws SQLException {
         MysqlXADataSource sds = new MysqlXADataSource();
